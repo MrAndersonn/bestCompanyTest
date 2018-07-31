@@ -14,7 +14,7 @@ public class PagedContactJob extends ContactJob {
     public PagedContactJob(String filterPattern, Pageable pageable) {
         super(filterPattern);
         this.pageable = pageable;
-        this.size = pageable.getPageNumber() == 0 ? pageable.getPageSize() : pageable.getPageSize() * pageable.getPageNumber() + 1;
+        this.size = pageable.getPageNumber() == 0 ? pageable.getPageSize() : pageable.getPageSize() * (pageable.getPageNumber() + 1);
     }
 
     @Override

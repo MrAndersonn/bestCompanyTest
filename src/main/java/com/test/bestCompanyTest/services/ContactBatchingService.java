@@ -27,7 +27,7 @@ public class ContactBatchingService {
     private ReentrantLock lock = new ReentrantLock();
 
     private static final int COUNT_OF_THREADS = 2;
-    private final int DEFAULT_BATCH_SIZE = 1;
+    private final int DEFAULT_BATCH_SIZE = 2000;
 
     private AtomicInteger currentGlobalPage = new AtomicInteger(0);
     private volatile boolean inProgress = false;

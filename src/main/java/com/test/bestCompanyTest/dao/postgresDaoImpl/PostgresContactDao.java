@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 //todo conditional on property
 public class PostgresContactDao implements ContactDao {
@@ -16,8 +18,18 @@ public class PostgresContactDao implements ContactDao {
     private ContactRepository contactRepository;
 
     @Override
+    public void removeAll() {
+        contactRepository.deleteAll();
+    }
+
+    @Override
     public void save(Contact entity) {
         contactRepository.save(entity);
+    }
+
+    @Override
+    public void save(List<Contact> entity) {
+        contactRepository.saveAll(entity);
     }
 
     @Override
