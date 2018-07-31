@@ -4,6 +4,7 @@ import com.test.bestCompanyTest.dao.ContactDao;
 import com.test.bestCompanyTest.models.Contact;
 import com.test.bestCompanyTest.repositories.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-//todo conditional on property
+@ConditionalOnProperty(value = "app.dao", havingValue = "psql")
 public class PostgresContactDao implements ContactDao {
 
     @Autowired
