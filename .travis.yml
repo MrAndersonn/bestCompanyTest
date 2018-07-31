@@ -6,6 +6,6 @@ before_install:
 install:
     - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script:
-  - ./mvnw clean install
+  - sudo ./mvnw clean install
   - bash <(curl -s https://codecov.io/bash)
   
