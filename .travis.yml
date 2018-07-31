@@ -2,10 +2,10 @@ language: java
 jdk: oraclejdk8
 sudo: enabled
 before_install:
-  - chmod +x mvnw ./mvnw
+  - chmod +x mvnw
 install:
     - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script:
-  - ./mvnw clean install
+  - ./mvnw clean compile
   - bash <(curl -s https://codecov.io/bash)
   
