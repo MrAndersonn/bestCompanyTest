@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
+//todo conditional on property
 public class PostgresContactDao implements ContactDao {
 
     @Autowired
