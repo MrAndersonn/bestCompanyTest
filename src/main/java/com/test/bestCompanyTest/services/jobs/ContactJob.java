@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ContactJob extends Job<Contact> {
-    protected List<Contact> result = new ArrayList<>();
+    List<Contact> result = new ArrayList<>();
     String filterPattern;
 
     ContactJob(String filterPattern) {
@@ -16,13 +16,8 @@ public abstract class ContactJob extends Job<Contact> {
 
     public abstract void processContactPage(Page<Contact> page);
 
-
     @Override
     public List<Contact> getResult() {
         return result;
-    }
-
-    public void setResult(List<Contact> result) {
-        this.result = result;
     }
 }

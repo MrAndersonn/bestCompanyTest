@@ -20,7 +20,6 @@ public class ContactService {
     @Autowired
     private ContactDao contactDao;
 
-
     public List<Contact> retrieveContactsWithFilter(String filter, Pageable pageable) throws InterruptedException {
         ContactJob job = pageable == null ? new UnpagedContactJob(filter) : new PagedContactJob(filter, pageable);
         jobExecutor.placeAndReturnJob(job);

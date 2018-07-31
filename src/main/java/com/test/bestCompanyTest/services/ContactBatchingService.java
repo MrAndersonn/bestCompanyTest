@@ -17,6 +17,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
+
+/**
+ * Service for batching sql request on contacts table
+ */
 @Service
 public class ContactBatchingService {
 
@@ -37,6 +41,14 @@ public class ContactBatchingService {
 
     private ExecutorService executor = Executors.newFixedThreadPool(COUNT_OF_THREADS);
 
+    /**
+     * Run threads that process pipeline of execute all document in collection, if
+     * it is not runes.
+     * And register UnpagedContactJob for listening global pipeline
+     *
+     * @param job
+     * @throws InterruptedException
+     */
     void registerUnpagedJob(UnpagedContactJob job) throws InterruptedException {
         jobObserver.addListener(job);
 
@@ -51,6 +63,11 @@ public class ContactBatchingService {
         }
     }
 
+    /**
+     * Process simple job while their page is not be fulled
+     *
+     * @param job
+     */
     void proceedPagedJob(ContactJob job) {
         int current = 0;
         boolean hasMoreContent = true;
@@ -63,6 +80,13 @@ public class ContactBatchingService {
         }
     }
 
+    /**
+     * Paged method for retrieving page for collection
+     *
+     * @param page
+     * @param size
+     * @return
+     */
     private Page<Contact> getContactPage(int page, int size) {
         return contactDao.findAllPageble(PageRequest.of(page, size));
     }
@@ -83,9 +107,13 @@ public class ContactBatchingService {
         return workers;
     }
 
+    /**
+     * Create new worker that will be take part in main pipeline
+     *
+     * @return Runnable Worker
+     */
     private Runnable getWorker() {
         return () -> {
-
             while (!jobObserver.isEmptyListeners()) {
                 try {
                     lock.lock();
@@ -99,6 +127,7 @@ public class ContactBatchingService {
                     e.printStackTrace();
                 }
             }
+
             lock.lock();
             availableThread.getAndIncrement();
             checkProgressWorkers();
@@ -106,11 +135,21 @@ public class ContactBatchingService {
         };
     }
 
+    /**
+     * That method set main pipeline is not progress if all threads set as free and
+     * have not more job, and send global pipeline index in start.
+     */
     private void checkProgressWorkers() {
         inProgress = availableThread.get() != COUNT_OF_THREADS;
         if (!inProgress) currentGlobalPage = new AtomicInteger(0);
     }
 
+    /**
+     * Emit Page for observer for the unpaged Job
+     *
+     * @param page
+     * @param currentPage
+     */
     private void processPage(Page<Contact> page, int currentPage) {
 
         if (page.getTotalElements() == 0) {

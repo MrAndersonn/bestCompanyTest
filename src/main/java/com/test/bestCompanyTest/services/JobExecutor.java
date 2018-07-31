@@ -12,6 +12,11 @@ public class JobExecutor {
     @Autowired
     private ContactBatchingService contactBatchingService;
 
+    /**
+     * It`s something like factory method, bad implementation, but logic the same.
+     * @param job
+     * @throws InterruptedException
+     */
     void placeAndReturnJob(ContactJob job) throws InterruptedException {
         if (job instanceof UnpagedContactJob) {
             contactBatchingService.registerUnpagedJob((UnpagedContactJob) job);
