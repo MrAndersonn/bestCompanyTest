@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.test.bestCompanyTest.utils.UriUtils.getParametrsFromUri;
 import static com.test.bestCompanyTest.utils.UriUtils.tryRetrivePagebleFromParam;
@@ -28,16 +26,15 @@ public class HelloController {
 
     @GetMapping("/contacts*")
     public Map<String, List<Contact>> retrieveContacts(HttpServletRequest request) throws InterruptedException {
-
-        Map<String, String> parametersFromUri = getParametrsFromUri(request.getQueryString());
-
         Map<String, List<Contact>> filteredContacts = new HashMap<>();
-        filteredContacts.put(CONTACTS_JSON_KEY,
-                contactService.retrieveContactsWithFilter(
-                        parametersFromUri.get(NAME_FILTER_PARAM_KEY),
-                        tryRetrivePagebleFromParam(parametersFromUri)
-                )
-        );
+        filteredContacts.put(CONTACTS_JSON_KEY, getListOfContacts(getParametrsFromUri(request.getQueryString())));
         return filteredContacts;
+    }
+
+    private List<Contact> getListOfContacts(Map<String, String> parametersFromUri) throws InterruptedException {
+        return contactService.retrieveContactsWithFilter(
+                parametersFromUri.get(NAME_FILTER_PARAM_KEY),
+                tryRetrivePagebleFromParam(parametersFromUri)
+        );
     }
 }

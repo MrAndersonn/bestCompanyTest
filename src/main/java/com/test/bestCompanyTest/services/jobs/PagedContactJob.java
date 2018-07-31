@@ -21,7 +21,7 @@ public class PagedContactJob extends ContactJob {
     public void processContactPage(Page<Contact> page) {
         List<Contact> result = this.result;
         for (Contact contact : page) {
-            if (!contact.getName().matches(filterPattern)) {
+            if (matchContactWithPattern(contact)) {
                 result.add(contact);
             }
 

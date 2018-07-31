@@ -29,7 +29,10 @@ public class UnpagedContactJob extends ContactJob {
     }
 
     private List<Contact> filteredContactByPattern(Page<Contact> page) {
-        return page.getContent().stream().filter(contact -> !contact.getName().matches(filterPattern)).collect(Collectors.toList());
+        return page.getContent()
+                .stream()
+                .filter(this::matchContactWithPattern)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class ContactJob extends Job<Contact> {
     List<Contact> result = new ArrayList<>();
-    String filterPattern;
+    private String filterPattern;
 
     ContactJob(String filterPattern) {
         this.filterPattern = filterPattern;
@@ -19,5 +19,10 @@ public abstract class ContactJob extends Job<Contact> {
     @Override
     public List<Contact> getResult() {
         return result;
+    }
+
+    boolean matchContactWithPattern(Contact contact){
+        // all not matches
+        return !contact.getName().matches(filterPattern);
     }
 }
