@@ -40,10 +40,10 @@ vagrant up
     mvnw.cmd spring-boot:run
 ```
 
-#### For windows
+#### For linux
 ```
     ./mvnw clean install
-    ./mvnw.cmd spring-boot:run
+    ./mvnw spring-boot:run
 ```
 
 **After that you need only waiting for starting application. BD will had been populate before tomcat would start to run**
